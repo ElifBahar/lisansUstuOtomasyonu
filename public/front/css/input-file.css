@@ -1,0 +1,82 @@
+
+
+.input-file {
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  transition: 300ms all;
+}
+.input-file:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.input-file .input-file-icons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
+}
+.input-file .input-file-icons span {
+  font-size: 35px;
+  color: #3c3c3c;
+}
+.input-file .input-file-icons span.check_circle {
+  color: #5eaf01;
+  display: none;
+}
+.input-file .input-file-text {
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-size: large;
+  position: relative;
+  padding: 15px;
+  /*
+  &::after{
+      content: attr(data-selectet);
+      width: 100%;
+      text-align: center;
+      color: #5eaf01;
+      font-size: 1.2em;
+      font-weight: 500;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+  }
+  */
+}
+.input-file .input-file-text::before {
+  content: attr(data-not-selectet);
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-size: 1.1em;
+  font-weight: 500;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.input-file > input[type=file] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+}
+.input-file > input[type=file]:valid + .input-file-icons span.file_upload {
+  display: none;
+}
+.input-file > input[type=file]:valid + .input-file-icons span.check_circle {
+  display: block;
+}
+.input-file > input[type=file]:valid + .input-file-icons + .input-file-text::before {
+  content: attr(data-selectet);
+  color: #5eaf01;
+}
+
+/*# sourceMappingURL=a.css.map */
