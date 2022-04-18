@@ -15,7 +15,17 @@ class CreateReferencesTable extends Migration
     {
         Schema::create('references', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('student_id')->index();
+            $table->string('referencer_name',150);
+            $table->string('referencer_email',100);
+            $table->string('referencer_title',30);
+            $table->string('referencer_university_name',255);
+            /* $table->string('referencer_orcid_number',19); */
+            $table->string('token')->nullable();
+            $table->dateTime('token_at')->nullable();
+            $table->tinyInteger('is_confirmed')->default(0)->comment('0 not confirmed, 1 sended mail, 2 confirmed');
             $table->timestamps();
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
         });
     }
 
