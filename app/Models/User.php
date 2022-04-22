@@ -18,9 +18,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'is_active',
         'name',
         'email',
+        'institute',
         'password',
+        'role',
+        'email_verified_at',
     ];
 
     /**
@@ -31,6 +35,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'two_factor_recovery_codes',
+        'two_factor_secret',
+        'phone',
+        'birth_date',
+        'gender',
+        'phone'
     ];
 
     /**
@@ -41,4 +51,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $appends = [
+        'profile_photo_url',
+    ];
+
+    public function getStudent(){
+
+        return $this->belongsTo('App\Models\Student','student_id','id');
+
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
+    }
 }
