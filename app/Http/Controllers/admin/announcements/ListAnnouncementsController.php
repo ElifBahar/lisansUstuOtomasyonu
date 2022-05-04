@@ -84,4 +84,21 @@ class ListAnnouncementsController extends Controller
                     '<button class="btn btn-danger" onClick="deleteAnnouncement('.$data->id.')" href="">'.'Sil</button>';
             })->rawColumns(['button','delete','update'])->make();
     }
+
+    function ListInactiveAnnouncements(){
+        $announcements = Announcements::query()->where('is_deleted',0)->where('status', '0')->where('institute', Auth::user()->institute);
+
+        return Datatables::of($announcements)->addColumn('button', function ($data){
+            return '<a class="btn btn-primary" href="'. route('appeals-list-page', [$data->id]) .'">'.'İlana Git</a>';
+        })
+            ->addColumn('update', function ($data){
+                return '<a class="btn btn-warning" href="'. route('announcements-update-page', [$data->id]) .'">'.'Güncelle</a>';
+            })
+            ->addColumn('delete', function ($data){
+                return
+                    //'<a class="btn btn-danger" href="'.route('announcements-delete', [$data->id]) .'">'.'Sil </a>';
+                    '<button class="btn btn-danger" onClick="deleteAnnouncement('.$data->id.')" href="">'.'Sil</button>';
+            })->rawColumns(['button','delete','update'])->make();
+
+    }
 }
