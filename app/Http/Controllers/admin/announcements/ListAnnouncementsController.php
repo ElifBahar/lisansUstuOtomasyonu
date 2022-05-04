@@ -118,4 +118,8 @@ class ListAnnouncementsController extends Controller
             })->rawColumns(['button','delete','update'])->make();
 
     }
+
+    function CreateAnnouncementShow(){
+        return view('admin.announcements.create-announcement');
+    }
 }
