@@ -162,4 +162,25 @@ class ListAnnouncementsController extends Controller
 
 
     }
+
+    function DeleteAction(){
+        $id = Helper::removeTags(\request('id'));
+
+        if (is_numeric($id)) {
+            $success = Announcements::where('id', $id)->update([
+                'is_deleted' => 1
+            ]);
+            if($success)
+            {
+                return response()->json(['success' => 'Successfully deleted']);
+            }
+            else
+            {
+                return response()->json(['errors' => 'Operation failed']);
+            }
+        }else{
+            return response()->json(['errors' => 'Operation failed']);
+        }
+
+    }
 }
