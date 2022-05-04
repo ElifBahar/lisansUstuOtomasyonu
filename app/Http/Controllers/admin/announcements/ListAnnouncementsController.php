@@ -189,4 +189,39 @@ class ListAnnouncementsController extends Controller
         $announcement = Announcements::find($id);
         return view('admin.announcements.update-announcement',compact('announcement'));
     }
+
+    function UpdatePost(Request $request){
+        $errors = "";
+
+        $announcement = Announcements::find($request->announcement_id);
+
+        $request->validate([
+            'name' => 'required',
+            'title' => 'required',
+            'status' => 'required',
+            'release_date' => 'required|date',
+            'due_date' => 'required|date',
+            'content' => 'required',
+            'type' => 'required'
+        ]);
+
+        if($request->due_date < Carbon::today() && $request->status == 1){
+            return back()->withErrors(['message1'=>'Bitiş tarihi geçmiş zaman seçildiğinde ilanın statüsü aktif olamaz!']);
+        }
+
+        $announcement ->update([
+            'announcement_type' => Helper::removeTags($request->type),
+            'name' => Helper::removeTags($request->name),
+            'status' => Helper::removeTags($request->status),
+            'title' => Helper::removeTags($request->title),
+            'content' => Helper::removeTags($request->content),
+            'release_date' => Helper::removeTags($request->release_date),
+            'due_date' => Helper::removeTags($request->due_date),
+            'is_deleted' => Helper::removeTags($request->is_deleted)
+        ]);
+
+        return redirect()->route('announcements')->withSuccess('1');
+
+
+    }
 }
