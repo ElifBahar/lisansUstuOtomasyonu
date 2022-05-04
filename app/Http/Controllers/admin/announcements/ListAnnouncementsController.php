@@ -183,4 +183,10 @@ class ListAnnouncementsController extends Controller
         }
 
     }
+
+    function UpdateAnnouncementShow($id){
+
+        $announcement = Announcements::find($id);
+        return view('admin.announcements.update-announcement',compact('announcement'));
+    }
 }
