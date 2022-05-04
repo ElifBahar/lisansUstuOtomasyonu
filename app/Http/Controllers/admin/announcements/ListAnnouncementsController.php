@@ -122,4 +122,44 @@ class ListAnnouncementsController extends Controller
     function CreateAnnouncementShow(){
         return view('admin.announcements.create-announcement');
     }
+
+    function CreatePost(Request $request){
+
+
+        $request->validate([
+            'name' => 'required',
+            'title' => 'required',
+            'release_date' => 'required|date',
+            'due_date' => 'required|date',
+            'content' => 'required',
+            'type' => 'required'
+        ]);
+
+        $announcement_name = Helper::removeTags(\request('name'));
+        $announcement_title = Helper::removeTags($request->title);
+        $announcement_rDate = Helper::removeTags(\request('release_date'));
+        $announcement_dDate = Helper::removeTags(\request('due_date'));
+        $announcement_content = Helper::removeTags(\request('content'));
+        $announcement_type = Helper::removeTags(\request('type'));
+
+        $errors = "";
+
+        if ($errors == ""){
+            Announcements::create([
+                'name' => $announcement_name,
+                'announcement_type' => $announcement_type,
+                'status' => 0,
+                'title' => $announcement_title,
+                'institute' => Auth::user()->institute,
+                'content' => $announcement_content,
+                'release_date' => $announcement_rDate,
+                'due_date' => $announcement_dDate,
+            ]);
+            return redirect()->route('announcements');
+        }else{
+            return view('admin.announcements.create-announcement') -> with('errors', $errors);
+        }
+
+
+    }
 }
